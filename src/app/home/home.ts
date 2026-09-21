@@ -1,7 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { HousingLocation } from '../housing-location/housing-location';
 import { HousingLocationInfo } from '../housinglocation';
 import { HousingService } from '../housing';
+import { debounceTime, Subject, Subscription } from 'rxjs';
 
 @Component({
   imports: [HousingLocation],
@@ -10,19 +11,32 @@ import { HousingService } from '../housing';
   templateUrl: './home.html',
 })
 export class Home {
-  housingService: HousingService = inject(HousingService);
+  filterDebounceTimeMs = 500;
+
+  housingService = inject(HousingService);
   housingLocations: HousingLocationInfo[] = [];
-  filteredHousingLocations: HousingLocationInfo[] = [];
+  filteredHousingLocations: WritableSignal<HousingLocationInfo[]> = signal([]);
+
+  textChanged = new Subject<string>;
+  subscription = new Subscription;
 
   constructor() {
     this.housingLocations = this.housingService.getAllHousingLocations();
-    this.filteredHousingLocations = this.housingLocations;
+    this.filteredHousingLocations.set(this.housingLocations);
+
+    this.subscription = this.textChanged.pipe(debounceTime(this.filterDebounceTimeMs)).subscribe((val) => {
+      this.filterResults(val);
+    });
   }
 
   filterResults(text: string) {
-    this.filteredHousingLocations = text.length == 0
+    this.filteredHousingLocations.set((text.length == 0
       ? this.housingLocations : this.housingLocations.filter(
         (location) => location.city.toLowerCase().includes(text.toLowerCase())
-      );
+      )));
+  }
+
+  filterResultsDebounced(text: string) {
+    this.textChanged.next(text);
   }
 }
