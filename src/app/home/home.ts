@@ -30,13 +30,17 @@ export class Home {
   }
 
   filterResults(text: string) {
-    this.filteredHousingLocations.set((text.length == 0
+    this.filteredHousingLocations.set((text === ""
       ? this.housingLocations : this.housingLocations.filter(
         (location) => location.city.toLowerCase().includes(text.toLowerCase())
       )));
   }
 
   filterResultsDebounced(text: string) {
-    this.textChanged.next(text);
+    if (text === "") {
+      this.filteredHousingLocations.set(this.housingLocations);
+    } else {
+      this.textChanged.next(text);
+    }
   }
 }
