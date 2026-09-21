@@ -11,7 +11,7 @@ import { debounceTime, Subject, Subscription } from 'rxjs';
   templateUrl: './home.html',
 })
 export class Home {
-  filterDebounceTimeMs = 500;
+  filterDebounceTimeMs = 1000;
 
   housingService = inject(HousingService);
   housingLocations: HousingLocationInfo[] = [];
