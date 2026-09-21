@@ -3,9 +3,10 @@ import { HousingLocation } from '../housing-location/housing-location';
 import { HousingLocationInfo } from '../housinglocation';
 import { HousingService } from '../housing';
 import { debounceTime, Subject, Subscription } from 'rxjs';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
-  imports: [HousingLocation],
+  imports: [HousingLocation, MatProgressSpinner],
   selector: 'app-home',
   styleUrl: './home.css',
   templateUrl: './home.html',

@@ -1,15 +1,15 @@
-<section>
+<div>
   <form (submit)="$event.preventDefault(); filterResults(filter.value)">
     <input type="text" placeholder="Filter by city" #filter (input)="filterResultsDebounced(filter.value)"/>
     <button class="primary" type="submit">Search</button>
-  </form>
-</section>
-@if (loading()) {
-  <section>Loading...</section>
-} @else {
-  <section class="results">
-    @for (housingLocation of filteredHousingLocations(); track $index) {
-    <app-housing-location [housingLocation]="housingLocation" />
+    @if (loading()) {
+      <mat-spinner diameter=16 />
+      Loading...
     }
-  </section>
-}
+  </form>
+</div>
+<section class="results">
+  @for (housingLocation of filteredHousingLocations(); track $index) {
+  <app-housing-location [housingLocation]="housingLocation" />
+  }
+</section>
