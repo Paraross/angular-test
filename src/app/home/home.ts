@@ -25,12 +25,4 @@ export class Home {
         (location) => location.city.toLowerCase().includes(text.toLowerCase())
       );
   }
-
-  logChange() {
-    console.log('change');
-  }
-
-  logSubmit() {
-    console.log('submit');
-  }
 }
