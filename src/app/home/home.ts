@@ -13,6 +13,8 @@ import { debounceTime, Subject, Subscription } from 'rxjs';
 export class Home {
   filterDebounceTimeMs = 1000;
 
+  loading = signal(false);
+
   housingService = inject(HousingService);
   housingLocations: HousingLocationInfo[] = [];
   filteredHousingLocations: WritableSignal<HousingLocationInfo[]> = signal([]);
@@ -25,7 +27,10 @@ export class Home {
     this.filteredHousingLocations.set(this.housingLocations);
 
     this.subscription = this.textChanged.pipe(debounceTime(this.filterDebounceTimeMs)).subscribe((val) => {
-      this.filterResults(val);
+      if (this.loading()) {
+        this.filterResults(val);
+        this.loading.set(false);
+      }
     });
   }
 
@@ -38,9 +43,11 @@ export class Home {
 
   filterResultsDebounced(text: string) {
     if (text === "") {
-      this.filteredHousingLocations.set(this.housingLocations);
+      this.filterResults(text);
+      this.loading.set(false);
     } else {
       this.textChanged.next(text);
+      this.loading.set(true);
     }
   }
 }

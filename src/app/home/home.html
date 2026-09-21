@@ -4,8 +4,12 @@
     <button class="primary" type="submit">Search</button>
   </form>
 </section>
-<section class="results">
-  @for (housingLocation of filteredHousingLocations(); track $index) {
-  <app-housing-location [housingLocation]="housingLocation" />
-  }
-</section>
+@if (loading()) {
+  <section>Loading...</section>
+} @else {
+  <section class="results">
+    @for (housingLocation of filteredHousingLocations(); track $index) {
+    <app-housing-location [housingLocation]="housingLocation" />
+    }
+  </section>
+}
