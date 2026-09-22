@@ -1,4 +1,4 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, signal, WritableSignal } from "@angular/core";
 import { HousingLocationInfo } from "../housinglocation";
 import { HousingService } from "../housing";
 import { ActivatedRoute } from "@angular/router";
@@ -13,7 +13,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 export class Details {
   route: ActivatedRoute = inject(ActivatedRoute);
   housingService: HousingService = inject(HousingService);
-  housingLocation: HousingLocationInfo | undefined;
+  housingLocation: WritableSignal<HousingLocationInfo | undefined> = signal(undefined);
 
   applyForm = new FormGroup({
     firstName: new FormControl(""),
@@ -23,7 +23,10 @@ export class Details {
 
   constructor() {
     const housingLocationId = Number(this.route.snapshot.params["id"]);
-    this.housingLocation = this.housingService.getHousingLocationById(housingLocationId);
+
+    this.housingService.getHousingLocationById(housingLocationId).then((location) => {
+      this.housingLocation.set(location);
+    });
   }
 
   submitApplication() {

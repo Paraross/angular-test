@@ -24,8 +24,10 @@ export class Home {
   subscription = new Subscription();
 
   constructor() {
-    this.housingLocations = this.housingService.getAllHousingLocations();
-    this.filteredHousingLocations.set(this.housingLocations);
+    this.housingService.getAllHousingLocations().then((locations: HousingLocationInfo[]) => {
+      this.housingLocations = locations;
+      this.filteredHousingLocations.set(locations);
+    });
 
     this.subscription = this.textChanged
       .pipe(debounceTime(this.filterDebounceTimeMs))
