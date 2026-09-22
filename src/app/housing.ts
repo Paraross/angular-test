@@ -1,19 +1,21 @@
-import { Service } from "@angular/core";
+import { inject, Service } from "@angular/core";
 import { HousingLocationInfo } from "./housinglocation";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
 
 @Service()
 export class HousingService {
   readonly locationsUrl = "http://localhost:3000/locations";
   readonly photosBaseUrl = "https://angular.dev/assets/images/tutorials/common";
 
-  async getAllHousingLocations(): Promise<HousingLocationInfo[]> {
-    const data = await fetch(this.locationsUrl);
-    return (await data.json()) ?? [];
+  private httpClient = inject(HttpClient);
+
+  getAllHousingLocations(): Observable<HousingLocationInfo[]> {
+    return this.httpClient.get<HousingLocationInfo[]>(this.locationsUrl);
   }
 
-  async getHousingLocationById(id: number): Promise<HousingLocationInfo | undefined> {
-    const data = await fetch(`${this.locationsUrl}/${id}`);
-    return (await data.json()) ?? {};
+  getHousingLocationById(id: number): Observable<HousingLocationInfo | undefined> {
+    return this.httpClient.get<HousingLocationInfo | undefined>(`${this.locationsUrl}/${id}`);
   }
 
   submitApplication(firstName: string, lastName: string, email: string) {

@@ -24,7 +24,7 @@ export class Home {
   subscription = new Subscription();
 
   constructor() {
-    this.housingService.getAllHousingLocations().then((locations: HousingLocationInfo[]) => {
+    this.housingService.getAllHousingLocations().subscribe((locations: HousingLocationInfo[]) => {
       this.housingLocations = locations;
       this.filteredHousingLocations.set(locations);
     });
