@@ -21,7 +21,7 @@
 }
 
 .listing-location::before {
-  content: url('/public/location-pin.svg') / '';
+  content: url("/public/location-pin.svg") / "";
 }
 
 section.listing a {
@@ -31,6 +31,6 @@ section.listing a {
 }
 
 section.listing a::after {
-  content: '\203A';
+  content: "\203A";
   margin-left: 5px;
 }

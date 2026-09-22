@@ -4,14 +4,14 @@ import { Details } from "./details/details";
 
 const routeConfig: Routes = [
   {
-    path: '',
+    path: "",
     component: Home,
-    title: 'Home page',
+    title: "Home page",
   },
   {
-    path: 'details/:id',
+    path: "details/:id",
     component: Details,
-    title: 'Home details',
+    title: "Home details",
   },
 ];
 

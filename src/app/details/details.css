@@ -13,7 +13,7 @@
 }
 
 .listing-location::before {
-  content: url('/public/location-pin.svg') / '';
+  content: url("/public/location-pin.svg") / "";
 }
 
 .listing-location {
@@ -21,7 +21,7 @@
   margin-bottom: 15px;
 }
 
-.listing-features>.section-heading {
+.listing-features > .section-heading {
   color: var(--secondary-color);
   font-size: 24pt;
   margin-bottom: 15px;
